@@ -1,0 +1,138 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: "Poppins", sans-serif;
+}
+
+
+.container {
+    width: 100vw;
+    height: 100vh;
+}
+
+.up {
+    height: 100px;
+    border-bottom: 1px dotted #000;
+    display: flex;
+    align-items: center;
+    padding: 0 20px;
+}
+
+.up .area-titulo {
+    flex: 1;
+}
+
+.up .btn-acoes {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 20px;
+}
+
+.up .btn-acoes button {
+    padding: 10px;
+    outline: none;
+    border: none;
+    border-radius: 5px;
+    background-color: #191919;
+    color: #fff;
+    cursor: pointer;
+}
+
+.up .btn-acoes button:hover {
+    opacity: .7;
+    transition: ease-in-out .2s all;
+}
+
+.down {
+    flex: 1;
+
+}
+
+
+
+
+
+/* Modal */
+.modal{
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.8);
+    display: none;
+    justify-content: center;
+    align-items: center;
+}
+
+.show{
+    display: flex;
+}
+
+.modal .modal-area{
+    min-width: 500px;
+    padding: 20px 0;
+    background-color: #fff;
+    border-radius: 10px;
+}
+
+.modal .modal-area .modal-head{
+    height: 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 10px;
+}
+
+.modal .modal-area .modal-head span{
+    cursor: pointer;
+}
+
+
+.modal .modal-area .modal-body{
+    display: flex;
+    flex-direction: column;
+    padding: 0 10px;
+}
+
+
+.modal .modal-area .modal-body form{
+    width: inherit;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.modal .modal-area .modal-body form button{
+    width: 100%;
+    padding: 4px;
+    background-color: #191919;
+    margin-top: 20px;
+    color: #fff;
+    cursor: pointer;
+    outline: none;
+     width: calc(100% - 10px);
+    font-size: 15px;
+}
+
+.modal .modal-area .modal-body .form-field{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.modal .modal-area .modal-body .form-field input{
+    width: calc(100% - 10px);
+    padding: 5px;
+    outline: none;
+    border-radius: 5px;
+}
+
+#nome,#idade,#altura,#peso{
+    display: none;
+}

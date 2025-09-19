@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./src/css/style.css">
+    <title>Typescript</title>
+</head>
+
+<body>
+
+
+    <div class="container">
+
+        <div class="up">
+            <div class="area-titulo">
+                <h1>Estatísticas</h1>
+            </div>
+            <div class="btn-acoes">
+                <button type="button" id="adicionarTurma">Adicionar Turma</button>
+                <button type="button" id="adicionarAlunos">Adicionar alunos</button>
+            </div>
+        </div>
+        <div class="down">
+
+        </div>
+
+
+    </div>
+
+
+
+    <div class="modal">
+        <div class="modal-area">
+            <div class="modal-head">
+                <h2>Cadastrar classe</h2>
+                <span class="closeModal">❌</span>
+            </div>
+
+            <div class="modal-body">
+                <form action="">
+
+                    <div class="form-field">
+                        <label for="">Nome da Turma</label>
+                        <input type="text" required id="nomeTurma">
+                    </div>
+
+                    <div class="form-field" id="nome">
+                        <label for="">Nome completo do aluno</label>
+                        <input type="text">
+                    </div>
+
+                    <div class="form-field" id="idade">
+                        <label for="">Informe a idade do aluno</label>
+                        <input type="text">
+                    </div>
+
+                    <div class="form-field"  id="altura">
+                        <label for="">Informe a altura do aluno</label>
+                        <input type="text">
+                    </div>
+
+                    <div class="form-field" id="peso">
+                        <label for="">Infome o peso do aluno</label>
+                        <input type="text">
+                    </div>
+
+                    <button type="button" id="cadastrar">Cadastrar</button>
+
+                </form>
+            </div>
+
+        </div>
+    </div>
+
+
+    <script type="module" src="./dist/classes.js"></script>
+    <script type="module" src="./dist/script.js"></script>
+</body>
+
+</html>
