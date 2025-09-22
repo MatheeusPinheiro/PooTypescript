@@ -4,21 +4,37 @@ const btnAddStudent = document.getElementById('adicionarAlunos');
 const modal = document.querySelector('.modal');
 const closeModal = document.querySelector('.closeModal');
 const btnInserClassAndStudent = document.getElementById('cadastrar');
-const classRoom = new ClassRoom(1, 'Academia do chefe');
-console.log(classRoom);
+const nameClass = document.querySelector('.nome-classe');
+let classRoom = null;
+let mode = 'student';
 //Botão para abrir o modal para cadastrar a classe
 btnAddClassRoom.addEventListener('click', () => {
-    modal.classList.toggle('show');
+    modal.classList.add('show');
+    mode = "class";
     hideStudentFields();
-    btnInserClassAndStudent.addEventListener('click', (event) => {
-        event.preventDefault();
-        alert('testando');
-    });
 });
 //Botão para abrir o modal para cadastrar os alunos
 btnAddStudent.addEventListener('click', () => {
-    modal.classList.toggle('show');
+    if (!classRoom) {
+        alert("primeiro cadastre uma turma");
+        return;
+    }
+    modal.classList.add('show');
+    mode = "student";
     showStudentFields();
+});
+btnInserClassAndStudent.addEventListener('click', (event) => {
+    event.preventDefault();
+    if (mode === 'class') {
+        const nameClassRoom = document.getElementById('nomeTurma');
+        if (nameClassRoom.value.trim() === '') {
+            alert('Informe um nome da turma');
+            return;
+        }
+        classRoom = new ClassRoom(1, nameClassRoom.value.trim());
+        nameClass.innerHTML = classRoom.getName();
+        modal.classList.remove('show');
+    }
 });
 // Ao clicar no icone de X fecha o modal
 closeModal.addEventListener('click', () => {

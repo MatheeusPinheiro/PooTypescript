@@ -49,15 +49,58 @@
 
 .down {
     flex: 1;
+    display: flex;
 
+}
+
+.down .leftside {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: pink;
+    flex: 1;
+    flex-direction: column;
+}
+
+.down .leftside .area-dados{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.down .leftside .area-dados .dashboards{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.down .leftside .area-dados .dashboards .dash{
+    width: 200px;
+    height: 100px;
+    background-color: #ff0000;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+}
+
+.down .rightside {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    background-color: orange;
+    flex-direction: column;
 }
 
 
 
 
-
 /* Modal */
-.modal{
+.modal {
     position: fixed;
     top: 0;
     left: 0;
@@ -69,18 +112,18 @@
     align-items: center;
 }
 
-.show{
+.show {
     display: flex;
 }
 
-.modal .modal-area{
+.modal .modal-area {
     min-width: 500px;
     padding: 20px 0;
     background-color: #fff;
     border-radius: 10px;
 }
 
-.modal .modal-area .modal-head{
+.modal .modal-area .modal-head {
     height: 40px;
     display: flex;
     justify-content: space-between;
@@ -88,26 +131,26 @@
     padding: 0 10px;
 }
 
-.modal .modal-area .modal-head span{
+.modal .modal-area .modal-head span {
     cursor: pointer;
 }
 
 
-.modal .modal-area .modal-body{
+.modal .modal-area .modal-body {
     display: flex;
     flex-direction: column;
     padding: 0 10px;
 }
 
 
-.modal .modal-area .modal-body form{
+.modal .modal-area .modal-body form {
     width: inherit;
     display: flex;
     flex-direction: column;
     justify-content: center;
 }
 
-.modal .modal-area .modal-body form button{
+.modal .modal-area .modal-body form button {
     width: 100%;
     padding: 4px;
     background-color: #191919;
@@ -115,24 +158,27 @@
     color: #fff;
     cursor: pointer;
     outline: none;
-     width: calc(100% - 10px);
+    width: calc(100% - 10px);
     font-size: 15px;
 }
 
-.modal .modal-area .modal-body .form-field{
+.modal .modal-area .modal-body .form-field {
     display: flex;
     flex-direction: column;
     gap: 10px;
     margin-bottom: 10px;
 }
 
-.modal .modal-area .modal-body .form-field input{
+.modal .modal-area .modal-body .form-field input {
     width: calc(100% - 10px);
     padding: 5px;
     outline: none;
     border-radius: 5px;
 }
 
-#nome,#idade,#altura,#peso{
+#nome,
+#idade,
+#altura,
+#peso {
     display: none;
 }
