@@ -20,11 +20,12 @@
             <div class="btn-acoes">
                 <button type="button" id="adicionarTurma">Adicionar Turma</button>
                 <button type="button" id="adicionarAlunos">Adicionar alunos</button>
+                <button type="button" id="carregarAlunos">Carregar Alunos</button>
             </div>
         </div>
         <div class="down">
             <div class="leftside">
-                <h1>Dados Gereais</h1>
+                <h1>Dados Gerais</h1>
 
                 <div class="area-dados">
                     <h1 class="nome-classe">....</h1>
@@ -32,18 +33,23 @@
                     <div class="dashboards">
 
                         <div class="dash">
-                            <div class="dash-titulo">Quantidade de alunos</div>
-                            <div class="dash-info">0</div>
+                            <div class="dash-titulo">QTD. de alunos</div>
+                            <div class="dash-info" id="qtdAlunos">0.0</div>
                         </div>
 
                         <div class="dash">
                             <div class="dash-titulo">Média de altura</div>
-                            <div class="dash-info">0</div>
+                            <div class="dash-info" id="mediaAltura">0.0</div>
                         </div>
 
                         <div class="dash">
                             <div class="dash-titulo">Média de peso</div>
-                            <div class="dash-info">0</div>
+                            <div class="dash-info" id="mediaPeso">0.0</div>
+                        </div>
+
+                        <div class="dash">
+                            <div class="dash-titulo">Média de idades</div>
+                            <div class="dash-info" id="mediaIdade">0.0</div>
                         </div>
 
 
@@ -56,6 +62,25 @@
 
             <div class="rightside">
                 <h1>Alunos</h1>
+                <table id="table">
+                    <thead>
+                        <tr>
+                            <th>#Id</th>
+                            <th>Nome Completo</th>
+                            <th>Idade</th>
+                            <th>Altura</th>
+                            <th>Peso</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <tr>
+                            <td colspan="6" style="text-align: center;">Sem alunos cadastrados</td>
+                        </tr>
+                    </tbody>
+
+                </table>
             </div>
         </div>
 
@@ -79,27 +104,27 @@
                         <input type="text" required id="nomeTurma">
                     </div>
 
-                    <div class="form-field" id="nome">
+                    <div class="form-field" id="nomeCampo">
                         <label for="">Nome completo do aluno</label>
-                        <input type="text">
+                        <input type="text" id="nome">
                     </div>
 
-                    <div class="form-field" id="idade">
+                    <div class="form-field" id="idadeCampo">
                         <label for="">Informe a idade do aluno</label>
-                        <input type="text">
+                        <input type="number" id="idade">
                     </div>
 
-                    <div class="form-field" id="altura">
+                    <div class="form-field" id="alturaCampo">
                         <label for="">Informe a altura do aluno</label>
-                        <input type="text">
+                        <input type="number" id="altura">
                     </div>
 
-                    <div class="form-field" id="peso">
+                    <div class="form-field" id="pesoCampo">
                         <label for="">Infome o peso do aluno</label>
-                        <input type="text">
+                        <input type="number" id="peso">
                     </div>
 
-                    <button type="button" id="cadastrar">Cadastrar</button>
+                    <button type="submit" id="cadastrar">Cadastrar</button>
 
                 </form>
             </div>
