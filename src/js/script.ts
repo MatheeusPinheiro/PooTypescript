@@ -17,6 +17,14 @@ const tbody = document.querySelector('#table tbody') as HTMLTableSectionElement;
 let classRoom: ClassRoom | null = null;
 let mode: 'class' | 'student' = 'student';
 
+type RandomUser = {
+    results: {
+        name: { first: string; last: string; };
+        dob: { age: number; };
+        picture: { thumbnail: string; };
+    }[];
+}
+
 
 //Botão para abrir o modal para cadastrar a classe
 btnAddClassRoom.addEventListener('click', () => {
@@ -36,6 +44,8 @@ btnAddStudent.addEventListener('click', () => {
     showStudentFields();
 });
 
+
+
 //Botão para cadastrar os alunos via API
 btnLoadingStudents.addEventListener('click', async () => {
     if (!classRoom) {
@@ -43,10 +53,24 @@ btnLoadingStudents.addEventListener('click', async () => {
         return;
     };
 
-    const data = await fetch('https://randomuser.me/api/?results=10&nat=br');
-    const json = await data.json();
+    const quantityStudents = prompt('Informe a quantidade de alunos');
 
+    const response = await fetch(`https://randomuser.me/api/?results=${quantityStudents}&nat=br`);
+    const data: RandomUser = await response.json();
 
+    data.results.forEach(item => {
+        const fullName = `${item.name.first} ${item.name.last}`;
+        const age = item.dob.age;
+        const height = parseFloat((Math.random() * (1.90 - 1.50) + 1.50).toFixed(2));
+        const weight = parseFloat((Math.random() * (100 - 45) + 45).toFixed(1));
+
+        tbody.innerHTML = '';
+        const nextId = (classRoom?.getNumStudents() ?? 0) + 1;
+        let student = new Student(nextId, fullName, age, height, weight);
+
+        classRoom?.setAddStudent(student);
+        updateStatistics();
+    });
 });
 
 
@@ -89,15 +113,7 @@ btnInserClassAndStudent.addEventListener('click', (event) => {
         [nameStudentInput, ageStudentInput, heightStudentInput, weightStudentInput].forEach(item => item.value = '');
         modal.classList.remove('show');
 
-        if (classRoom) {
-            quantityStudents.innerText = classRoom?.getNumStudents().toString();
-            mediaHeightStudents.innerText = classRoom.getMediaHeight().toFixed(2);
-            mediaWeightStudents.innerText = classRoom.getMediaWeight().toFixed(2);
-            mediaAgeStudents.innerText = classRoom.getMediaAge().toFixed(2);
-        }
-
-        tbody.innerHTML = ""
-        renderTable();
+        updateStatistics();
     };
 });
 
@@ -154,4 +170,43 @@ function renderTable() {
             `
         tbody.appendChild(tr);
     });
+    addDeleteEvent();
+}
+
+
+function updateStatistics() {
+    if (classRoom) {
+        quantityStudents.innerText = classRoom?.getNumStudents().toString();
+        mediaHeightStudents.innerText = classRoom.getMediaHeight().toFixed(2);
+        mediaWeightStudents.innerText = classRoom.getMediaWeight().toFixed(2);
+        mediaAgeStudents.innerText = classRoom.getMediaAge().toFixed(2);
+    }
+
+    tbody.innerHTML = ""
+    renderTable();
+
+}
+
+
+function addDeleteEvent() {
+    const deleteButtons = document.querySelectorAll('.delete');
+
+    deleteButtons.forEach((button) => {
+        button.addEventListener('click', (event) => {
+            const target = event.currentTarget as HTMLButtonElement;
+            const id = parseInt(target.getAttribute('data-id') || '0');
+
+            if (id) {
+                deleteRow(id);
+            }
+        });
+    });
+}
+
+function deleteRow(id: number) {
+    const remove = classRoom?.setRemoveStudent(id);
+    if (remove) {
+        renderTable();
+        updateStatistics();
+    }
 }
