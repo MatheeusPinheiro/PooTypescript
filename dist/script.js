@@ -22,6 +22,7 @@ const mediaAgeStudents = document.getElementById('mediaIdade');
 const tbody = document.querySelector('#table tbody');
 let classRoom = null;
 let mode = 'student';
+let editingId = null;
 //Botão para abrir o modal para cadastrar a classe
 btnAddClassRoom.addEventListener('click', () => {
     modal.classList.add('show');
@@ -79,14 +80,27 @@ btnInserClassAndStudent.addEventListener('click', (event) => {
         const ageStudentInput = document.getElementById('idade');
         const heightStudentInput = document.getElementById('altura');
         const weightStudentInput = document.getElementById('peso');
-        const nextId = ((_a = classRoom === null || classRoom === void 0 ? void 0 : classRoom.getNumStudents()) !== null && _a !== void 0 ? _a : 0) + 1;
-        let student = new Student(nextId, nameStudentInput.value.trim(), parseInt(ageStudentInput.value), parseFloat(heightStudentInput.value), parseFloat(weightStudentInput.value));
-        classRoom === null || classRoom === void 0 ? void 0 : classRoom.setAddStudent(student);
+        // se estamos editando
+        if (editingId !== null) {
+            classRoom === null || classRoom === void 0 ? void 0 : classRoom.setEditStudent(editingId, {
+                fullName: nameStudentInput.value.trim(),
+                age: parseInt(ageStudentInput.value),
+                height: parseFloat(heightStudentInput.value),
+                weight: parseFloat(weightStudentInput.value)
+            });
+            editingId = null; // limpa o estado
+        }
+        else {
+            // se estamos criando
+            const nextId = ((_a = classRoom === null || classRoom === void 0 ? void 0 : classRoom.getNumStudents()) !== null && _a !== void 0 ? _a : 0) + 1;
+            let student = new Student(nextId, nameStudentInput.value.trim(), parseInt(ageStudentInput.value), parseFloat(heightStudentInput.value), parseFloat(weightStudentInput.value));
+            classRoom === null || classRoom === void 0 ? void 0 : classRoom.setAddStudent(student);
+        }
+        // limpa campos e fecha modal
         [nameStudentInput, ageStudentInput, heightStudentInput, weightStudentInput].forEach(item => item.value = '');
         modal.classList.remove('show');
         updateStatistics();
     }
-    ;
 });
 // Ao clicar no icone de X fecha o modal
 closeModal.addEventListener('click', () => {
@@ -128,13 +142,14 @@ function renderTable() {
                 <td>${item.getHeight().toFixed(2)}</td>
                 <td>${item.getWeight().toFixed(2)}</td>
                 <td>
-                    <button type="button" class="btn" data-id="${item.getId()}">Editar</button>
+                    <button type="button" class="btn edit" data-id="${item.getId()}">Editar</button>
                     <button type="button" class="btn delete" data-id="${item.getId()}">Excluir</button>
                 </td>  
             `;
         tbody.appendChild(tr);
     });
     addDeleteEvent();
+    addEditEvent();
 }
 function updateStatistics() {
     if (classRoom) {
@@ -164,4 +179,26 @@ function deleteRow(id) {
         renderTable();
         updateStatistics();
     }
+}
+function addEditEvent() {
+    const editButtons = document.querySelectorAll('.edit');
+    editButtons.forEach((button) => {
+        button.addEventListener('click', (event) => {
+            const target = event.currentTarget;
+            const id = parseInt(target.getAttribute('data-id') || '0');
+            if (id) {
+                editingId = id;
+                const student = classRoom === null || classRoom === void 0 ? void 0 : classRoom.getListStudents().find(s => s.getId() === id);
+                if (student) {
+                    document.getElementById('nome').value = student.getFullName();
+                    document.getElementById('idade').value = student.getAge().toString();
+                    document.getElementById('altura').value = student.getHeight().toString();
+                    document.getElementById('peso').value = student.getWeight().toString();
+                }
+                modal.classList.add('show');
+                mode = "student"; // modo student
+                showStudentFields();
+            }
+        });
+    });
 }

@@ -16,6 +16,8 @@ const tbody = document.querySelector('#table tbody') as HTMLTableSectionElement;
 
 let classRoom: ClassRoom | null = null;
 let mode: 'class' | 'student' = 'student';
+let editingId: number | null = null;
+
 
 type RandomUser = {
     results: {
@@ -92,29 +94,39 @@ btnInserClassAndStudent.addEventListener('click', (event) => {
     }
 
     if (mode === 'student') {
-
         const nameStudentInput = document.getElementById('nome') as HTMLInputElement;
         const ageStudentInput = document.getElementById('idade') as HTMLInputElement;
         const heightStudentInput = document.getElementById('altura') as HTMLInputElement;
         const weightStudentInput = document.getElementById('peso') as HTMLInputElement;
 
-        const nextId = (classRoom?.getNumStudents() ?? 0) + 1;
+        // se estamos editando
+        if (editingId !== null) {
+            classRoom?.setEditStudent(editingId, {
+                fullName: nameStudentInput.value.trim(),
+                age: parseInt(ageStudentInput.value),
+                height: parseFloat(heightStudentInput.value),
+                weight: parseFloat(weightStudentInput.value)
+            });
+            editingId = null; // limpa o estado
+        } else {
+            // se estamos criando
+            const nextId = (classRoom?.getNumStudents() ?? 0) + 1;
+            let student = new Student(
+                nextId,
+                nameStudentInput.value.trim(),
+                parseInt(ageStudentInput.value),
+                parseFloat(heightStudentInput.value),
+                parseFloat(weightStudentInput.value)
+            );
+            classRoom?.setAddStudent(student);
+        }
 
-        let student = new Student(
-            nextId,
-            nameStudentInput.value.trim(),
-            parseInt(ageStudentInput.value),
-            parseFloat(heightStudentInput.value),
-            parseFloat(weightStudentInput.value)
-        )
-
-        classRoom?.setAddStudent(student);
-
+        // limpa campos e fecha modal
         [nameStudentInput, ageStudentInput, heightStudentInput, weightStudentInput].forEach(item => item.value = '');
         modal.classList.remove('show');
 
         updateStatistics();
-    };
+    }
 });
 
 
@@ -164,13 +176,14 @@ function renderTable() {
                 <td>${item.getHeight().toFixed(2)}</td>
                 <td>${item.getWeight().toFixed(2)}</td>
                 <td>
-                    <button type="button" class="btn" data-id="${item.getId()}">Editar</button>
+                    <button type="button" class="btn edit" data-id="${item.getId()}">Editar</button>
                     <button type="button" class="btn delete" data-id="${item.getId()}">Excluir</button>
                 </td>  
             `
         tbody.appendChild(tr);
     });
     addDeleteEvent();
+    addEditEvent();
 }
 
 
@@ -209,4 +222,30 @@ function deleteRow(id: number) {
         renderTable();
         updateStatistics();
     }
+}
+
+
+function addEditEvent() {
+    const editButtons = document.querySelectorAll('.edit');
+
+    editButtons.forEach((button) => {
+        button.addEventListener('click', (event) => {
+            const target = event.currentTarget as HTMLButtonElement;
+            const id = parseInt(target.getAttribute('data-id') || '0');
+
+            if (id) {
+                editingId = id;
+                const student = classRoom?.getListStudents().find(s => s.getId() === id);
+                if (student) {
+                    (document.getElementById('nome') as HTMLInputElement).value = student.getFullName();
+                    (document.getElementById('idade') as HTMLInputElement).value = student.getAge().toString();
+                    (document.getElementById('altura') as HTMLInputElement).value = student.getHeight().toString();
+                    (document.getElementById('peso') as HTMLInputElement).value = student.getWeight().toString();
+                }
+                modal.classList.add('show');
+                mode = "student"; // modo student
+                showStudentFields();
+            }
+        });
+    });
 }

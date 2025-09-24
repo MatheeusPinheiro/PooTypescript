@@ -21,14 +21,37 @@ export class ClassRoom {
         }
     }
 
-    setRemoveStudent(id: number){
+    setRemoveStudent(id: number) {
         const index = this.students.findIndex(item => item.getId() === id);
 
-        if(index !== -1){
+        if (index !== -1) {
             this.students.splice(index, 1);
             return true;
         }
         return false;
+    }
+
+    setEditStudent(id: number, data: { fullName?: string; age?: number; height?: number; weight?: number }): boolean {
+        const student = this.students.find(item => item.getId() === id);
+
+        if (!student) {
+            return false;
+        }
+
+        if (data.fullName !== undefined) {
+            student.setFullName(data.fullName);
+        }
+        if (data.age !== undefined) {
+            student.setAge(data.age);
+        }
+        if (data.height !== undefined) {
+            student.setHeight(data.height);
+        }
+        if (data.weight !== undefined) {
+            student.setWeight(data.weight);
+        }
+
+        return true; 
     }
 
     getListStudents() {

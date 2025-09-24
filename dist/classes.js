@@ -23,6 +23,25 @@ export class ClassRoom {
         }
         return false;
     }
+    setEditStudent(id, data) {
+        const student = this.students.find(item => item.getId() === id);
+        if (!student) {
+            return false;
+        }
+        if (data.fullName !== undefined) {
+            student.setFullName(data.fullName);
+        }
+        if (data.age !== undefined) {
+            student.setAge(data.age);
+        }
+        if (data.height !== undefined) {
+            student.setHeight(data.height);
+        }
+        if (data.weight !== undefined) {
+            student.setWeight(data.weight);
+        }
+        return true;
+    }
     getListStudents() {
         return this.students;
     }
